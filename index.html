@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio of Hippolyte Broch, a student in market finance and applied mathematics building projects in quantitative finance, statistics and Python."
+    />
+    <title>Hippolyte Broch | Applied Mathematics & Quantitative Finance</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Hippolyte Broch home">HB</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#code-lab">Code Lab</a>
+        <a href="#motivation">Motivation</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero-content">
+          <p class="eyebrow">Student Portfolio</p>
+          <h1>Hippolyte Broch</h1>
+          <p class="hero-title">Applied Mathematics & Quantitative Finance</p>
+          <p class="hero-copy">
+            I am building a portfolio at the intersection of mathematics, Python and financial markets.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#roadmap">View project roadmap</a>
+            <a class="button secondary" href="#code-lab">Read Python prototypes</a>
+          </div>
+        </div>
+        <aside class="profile-panel" aria-label="Profile summary">
+          <dl>
+            <div>
+              <dt>Focus</dt>
+              <dd>Quantitative finance, statistics, econometrics</dd>
+            </div>
+            <div>
+              <dt>Tools</dt>
+              <dd>Python, NumPy, pandas, statsmodels</dd>
+            </div>
+            <div>
+              <dt>Current goal</dt>
+              <dd>Distance master's programs in mathematics</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section id="about" class="section split-section">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2>Academic profile</h2>
+        </div>
+        <div class="prose">
+          <p>
+            I am Hippolyte Broch, a student in market finance and applied mathematics. My academic
+            interests connect financial markets, probability, statistics, econometrics and numerical
+            methods. I am especially motivated by the way mathematical models can be translated into
+            practical Python tools for pricing, risk analysis and data-driven market research.
+          </p>
+          <p>
+            This portfolio is intentionally transparent: it presents my current learning path, project
+            ideas in progress and prototype code rather than claiming finished professional projects.
+            Its purpose is to show technical maturity, intellectual direction and the discipline with
+            which I am preparing for a rigorous master's program in mathematics.
+          </p>
+        </div>
+      </section>
+
+      <section id="roadmap" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Projects roadmap</p>
+          <h2>Work in progress</h2>
+          <p>
+            These planned projects are designed to become reproducible GitHub repositories with clear
+            notebooks, documented assumptions and tested Python modules.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="card-header">
+              <h3>Monte Carlo simulation for option pricing</h3>
+              <span class="status">in progress</span>
+            </div>
+            <p><strong>Objective:</strong> estimate European option prices by simulating asset paths.</p>
+            <p><strong>Mathematics:</strong> stochastic processes, Brownian motion, risk-neutral pricing.</p>
+            <p><strong>Python tools:</strong> NumPy, pandas, matplotlib.</p>
+            <pre><code class="language-python">import numpy as np
+
+def monte_carlo_call_price(S0, K, r, sigma, T, paths=50_000):
+    z = np.random.standard_normal(paths)
+    ST = S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * z)
+    payoff = np.maximum(ST - K, 0)
+    return np.exp(-r * T) * payoff.mean()</code></pre>
+          </article>
+
+          <article class="project-card">
+            <div class="card-header">
+              <h3>Machine learning for financial time-series prediction</h3>
+              <span class="status">in progress</span>
+            </div>
+            <p><strong>Objective:</strong> compare baseline models for return direction forecasting.</p>
+            <p><strong>Mathematics:</strong> regression, classification, cross-validation, stationarity.</p>
+            <p><strong>Python tools:</strong> pandas, scikit-learn, NumPy.</p>
+            <pre><code class="language-python">features = prices[["return_1d", "volatility_10d", "momentum_20d"]]
+target = (prices["return_1d"].shift(-1) &gt; 0).astype(int)
+
+X_train, X_test = features.iloc[:-250], features.iloc[-250:]
+y_train, y_test = target.iloc[:-250], target.iloc[-250:]</code></pre>
+          </article>
+
+          <article class="project-card">
+            <div class="card-header">
+              <h3>Econometric analysis of market variables</h3>
+              <span class="status">in progress</span>
+            </div>
+            <p><strong>Objective:</strong> test relationships between rates, inflation and equity returns.</p>
+            <p><strong>Mathematics:</strong> OLS, hypothesis testing, autocorrelation, confidence intervals.</p>
+            <p><strong>Python tools:</strong> statsmodels, pandas, seaborn.</p>
+            <pre><code class="language-python">import statsmodels.api as sm
+
+X = macro_data[["rate_change", "inflation_surprise"]]
+X = sm.add_constant(X)
+y = macro_data["equity_return"]
+
+model = sm.OLS(y, X).fit()
+print(model.summary())</code></pre>
+          </article>
+
+          <article class="project-card">
+            <div class="card-header">
+              <h3>Portfolio risk analytics dashboard</h3>
+              <span class="status">in progress</span>
+            </div>
+            <p><strong>Objective:</strong> calculate portfolio volatility, drawdown and value-at-risk.</p>
+            <p><strong>Mathematics:</strong> covariance matrices, diversification, quantiles, risk metrics.</p>
+            <p><strong>Python tools:</strong> pandas, NumPy, Plotly or Streamlit later.</p>
+            <pre><code class="language-python">weights = np.array([0.35, 0.25, 0.20, 0.20])
+cov_matrix = returns.cov() * 252
+
+portfolio_variance = weights.T @ cov_matrix @ weights
+portfolio_volatility = np.sqrt(portfolio_variance)</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section id="code-lab" class="section code-lab">
+        <div class="section-heading">
+          <p class="eyebrow">Code lab</p>
+          <h2>Python prototypes</h2>
+          <p>
+            Short, readable examples that will later become tested modules and notebooks in public
+            repositories.
+          </p>
+        </div>
+
+        <div class="code-stack">
+          <article class="code-block">
+            <h3>Black-Scholes formula</h3>
+            <pre><code class="language-python">from math import erf, exp, log, sqrt
+
+def normal_cdf(x):
+    return 0.5 * (1 + erf(x / sqrt(2)))
+
+def black_scholes_call(S, K, r, sigma, T):
+    d1 = (log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * sqrt(T))
+    d2 = d1 - sigma * sqrt(T)
+    return S * normal_cdf(d1) - K * exp(-r * T) * normal_cdf(d2)</code></pre>
+          </article>
+
+          <article class="code-block">
+            <h3>Monte Carlo simulation skeleton</h3>
+            <pre><code class="language-python">def simulate_terminal_prices(S0, r, sigma, T, n_paths):
+    shocks = np.random.normal(0, 1, n_paths)
+    drift = (r - 0.5 * sigma**2) * T
+    diffusion = sigma * np.sqrt(T) * shocks
+    return S0 * np.exp(drift + diffusion)</code></pre>
+          </article>
+
+          <article class="code-block">
+            <h3>Regression skeleton with statsmodels</h3>
+            <pre><code class="language-python">import statsmodels.api as sm
+
+def run_factor_regression(data, target, factors):
+    X = sm.add_constant(data[factors])
+    y = data[target]
+    result = sm.OLS(y, X, missing="drop").fit()
+    return result.params, result.pvalues, result.rsquared</code></pre>
+          </article>
+
+          <article class="code-block">
+            <h3>Portfolio volatility calculation</h3>
+            <pre><code class="language-python">def annualized_portfolio_volatility(returns, weights):
+    weights = np.asarray(weights)
+    annual_covariance = returns.cov() * 252
+    variance = weights.T @ annual_covariance @ weights
+    return np.sqrt(variance)</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section id="motivation" class="section split-section motivation">
+        <div>
+          <p class="eyebrow">Academic motivation</p>
+          <h2>Why a mathematics master's</h2>
+        </div>
+        <div class="prose">
+          <p>
+            I want to strengthen my mathematical background because the most interesting problems in
+            quantitative finance require more than applying existing libraries. They require a solid
+            understanding of probability, optimization, numerical analysis, statistics and model
+            assumptions.
+          </p>
+          <p>
+            A distance master's program in mathematics would allow me to build that foundation with
+            rigor while continuing to develop practical Python projects. My objective is to become more
+            precise in the way I reason, test models and communicate results in finance and applied
+            statistics.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="section-heading">
+          <p class="eyebrow">Contact</p>
+          <h2>Links to add</h2>
+          <p>Placeholders for public profiles and contact details as the portfolio grows.</p>
+        </div>
+        <div class="contact-links">
+          <a href="#" aria-label="GitHub profile placeholder">GitHub coming soon</a>
+          <a href="#" aria-label="LinkedIn profile placeholder">LinkedIn coming soon</a>
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Hippolyte Broch. Built with HTML, CSS and JavaScript for GitHub Pages.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
