@@ -23,6 +23,7 @@
 
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#about">About</a>
+        <a href="#first-project">First Project</a>
         <a href="#projects">Projects</a>
         <a href="#code-lab">Code Lab</a>
         <a href="#motivation">Motivation</a>
@@ -43,7 +44,7 @@
           </p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="#projects">View project roadmap</a>
+            <a class="button button-primary" href="#first-project">View first project</a>
             <a class="button button-secondary" href="#code-lab">Read Python prototypes</a>
           </div>
         </div>
@@ -72,27 +73,122 @@
 
         <div class="prose">
           <p>
-            I was born on Reunion Island, in the Indian Ocean. At 18, I moved to Paris to pursue higher education and joined a preparatory class for top French business schools. During my final year, I ranked first in my class and was later admitted to ESCP Business School, with an approximate national ranking around 650 out of 8,000 candidates.
+            I was born on Reunion Island, in the Indian Ocean. At 18, I moved to Paris to pursue
+            higher education and joined a preparatory class for top French business schools. During
+            my final year, I ranked first in my class and was later admitted to ESCP Business School,
+            with an approximate national ranking around 650 out of 8,000 candidates.
           </p>
-        
+
           <p>
-            At ESCP, I specialized in market finance. In parallel, I enrolled at Université Paris Cité in applied mathematics, with the objective of obtaining a mathematics degree and strengthening my quantitative foundations.
+            At ESCP, I specialized in market finance. In parallel, I enrolled at Université Paris
+            Cité in applied mathematics, with the objective of obtaining a mathematics degree and
+            strengthening my quantitative foundations.
           </p>
-        
+
           <p>
-            I gained professional experience in both asset management and investment banking. In 2024, I worked at Carmignac as a Macro Analyst / Junior Economist. From July 2025 to July 2026, I worked at HSBC Global Markets as an FX and Emerging Markets Rates Sales, developing practical exposure to financial markets, macroeconomic analysis and market products.
+            I gained professional experience in both asset management and investment banking. In
+            2024, I worked at Carmignac as a Macro Analyst / Junior Economist. From July 2025 to
+            July 2026, I worked at HSBC Global Markets as an FX and Emerging Markets Rates Sales,
+            developing practical exposure to financial markets, macroeconomic analysis and market
+            products.
           </p>
-        
+
           <p>
-            I created this website as a living portfolio to explore ideas and build projects that interest me, whether in finance, mathematics, programming or broader quantitative topics. The goal is not to present finished research, but to document my progression, prototypes and technical curiosity over time.
+            I created this website as a living portfolio to explore ideas and build projects that
+            interest me, whether in finance, mathematics, programming or broader quantitative topics.
+            The goal is not to present finished research, but to document my progression, prototypes
+            and technical curiosity over time.
           </p>
+        </div>
+      </section>
+
+      <section id="first-project" class="section project-report">
+        <div class="section-heading">
+          <p class="eyebrow">First completed notebook</p>
+          <h2>SPX implied volatility surface reconstruction</h2>
+          <p>
+            A Kaggle notebook that reconstructs an SPX implied volatility surface from listed option
+            quotes. The project cleans raw option-chain data, estimates forwards through put-call
+            parity, inverts Black-76 prices and visualizes implied volatility by moneyness and
+            maturity.
+          </p>
+        </div>
+
+        <div class="report-layout">
+          <article class="report-card">
+            <div class="card-heading">
+              <h3>Project summary</h3>
+              <span class="status complete">first project</span>
+            </div>
+
+            <div class="project-notes">
+              <p><strong>Objective:</strong> rebuild a clean implied-volatility surface from SPX option quotes rather than using a precomputed volatility dataset.</p>
+              <p><strong>Dataset:</strong> two files, <code>Chain.csv</code> for option quotes and <code>Meta.csv</code> for spot, valuation date and flat interest-rate assumptions.</p>
+              <p><strong>Method:</strong> filter illiquid quotes, match calls and puts by strike and expiry, estimate forward prices, keep out-of-the-money options, then solve for Black-76 implied volatility.</p>
+              <p><strong>Important limitation:</strong> this is a first notebook project, not a production volatility model. It uses a flat rate, mid prices and simplified filtering assumptions.</p>
+            </div>
+
+            <div class="metric-grid">
+              <div><span>Raw quotes</span><strong>8,000</strong></div>
+              <div><span>Clean rows</span><strong>4,862</strong></div>
+              <div><span>Call-put pairs</span><strong>2,688</strong></div>
+              <div><span>Valid IV points</span><strong>2,855</strong></div>
+              <div><span>Expiries</span><strong>5</strong></div>
+              <div><span>Median IV</span><strong>24.1%</strong></div>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <h3>Core notebook code</h3>
+            <pre><code class="language-python">pairs["forward_est"] = pairs["strike"] + np.exp(r * pairs["T"]) * (
+    pairs["mid_call"] - pairs["mid_put"]
+)
+
+clean["log_moneyness"] = np.log(clean["strike"] / clean["forward"])
+otm = clean[clean["is_otm"]].copy()
+
+otm["implied_vol"] = otm.apply(
+    lambda row: implied_vol_black76(
+        price=row["mid"],
+        F=row["forward"],
+        K=row["strike"],
+        T=row["T"],
+        r=r,
+        option_type=row["put_call"]
+    ),
+    axis=1
+)</code></pre>
+          </article>
+        </div>
+
+        <div class="output-grid">
+          <figure class="output-card wide-output main-output">
+            <img src="assets/spx_implied_volatility_surface_3d.png" alt="SPX implied volatility surface rendered as a 3D Matplotlib chart." />
+            <figcaption>
+              Main notebook output: the interpolated SPX implied-volatility surface over log-moneyness and maturity.
+            </figcaption>
+          </figure>
+
+          <figure class="output-card">
+            <img src="assets/spx_implied_volatility_smiles.png" alt="SPX implied volatility smiles across five option expiries." />
+            <figcaption>
+              The smiles show higher implied volatility away from the forward, especially on the downside of the equity-index distribution.
+            </figcaption>
+          </figure>
+
+          <figure class="output-card">
+            <img src="assets/spx_iv_surface_scatter_heatmap.png" alt="Scatter heatmap of implied volatility by log-moneyness and maturity." />
+            <figcaption>
+              The surface view places valid OTM implied-volatility points in log-moneyness and maturity space.
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       <section id="projects" class="section">
         <div class="section-heading">
           <p class="eyebrow">Projects roadmap</p>
-          <h2>Quantitative projects in progress</h2>
+          <h2>Next quantitative projects</h2>
           <p>
             Each project is designed to become a public GitHub repository with clear notebooks,
             documented assumptions, references and tested Python modules.
