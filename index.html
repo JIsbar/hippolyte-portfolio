@@ -23,7 +23,8 @@
 
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#about">About</a>
-        <a href="#first-project">First Project</a>
+        <a href="#first-project">Project I</a>
+        <a href="#second-project">Project II</a>
         <a href="#projects">Projects</a>
         <a href="#code-lab">Code Lab</a>
         <a href="#motivation">Motivation</a>
@@ -184,7 +185,132 @@ otm["implied_vol"] = otm.apply(
           </figure>
         </div>
       </section>
-
+      <section id="second-project" class="section project-report">
+        <div class="section-heading">
+          <p class="eyebrow">Second notebook project</p>
+          <h2>Black-Scholes and Heston implied volatility surfaces</h2>
+          <p>
+            A quantitative notebook comparing constant-volatility Black-Scholes surfaces with Heston
+            stochastic-volatility surfaces. The project implements Black-76 implied-volatility inversion,
+            Heston semi-closed pricing, Monte Carlo simulation under stochastic variance and sensitivity
+            analysis for key Heston parameters.
+          </p>
+        </div>
+      
+        <div class="report-layout">
+          <article class="report-card">
+            <div class="card-heading">
+              <h3>Project summary</h3>
+              <span class="status complete">second project</span>
+            </div>
+      
+            <div class="project-notes">
+              <p><strong>Objective:</strong> compare how Black-Scholes and Heston generate implied-volatility surfaces across log-moneyness and maturity.</p>
+              <p><strong>Mathematical framework:</strong> Black-76 pricing, implied-volatility inversion, stochastic variance, Heston characteristic function and Monte Carlo simulation.</p>
+              <p><strong>Models compared:</strong> constant-volatility Black-Scholes, Heston semi-closed formula and Heston Monte Carlo with full truncation Euler discretization.</p>
+              <p><strong>Assumptions:</strong> synthetic input parameters, flat interest rate, flat dividend yield, fixed Heston parameters and simplified numerical integration settings.</p>
+              <p><strong>Important limitation:</strong> this is a numerical prototype, not a calibrated production model. The parameters are chosen for learning and comparison, not fitted to live market data.</p>
+            </div>
+      
+            <div class="metric-grid">
+              <div>
+                <span>Models</span>
+                <strong>3</strong>
+              </div>
+              <div>
+                <span>Maturities</span>
+                <strong>7</strong>
+              </div>
+              <div>
+                <span>Log-moneyness grid</span>
+                <strong>80</strong>
+              </div>
+              <div>
+                <span>MC paths</span>
+                <strong>20,000</strong>
+              </div>
+              <div>
+                <span>Time steps</span>
+                <strong>126</strong>
+              </div>
+              <div>
+                <span>Status</span>
+                <strong>prototype</strong>
+              </div>
+            </div>
+          </article>
+      
+          <article class="report-card">
+            <h3>Core notebook code</h3>
+            <pre><code class="language-python">def implied_vol_black76(price, F, K, T, r, option_type):
+          intrinsic = black76_intrinsic(F, K, T, r, option_type)
+          time_value = price - intrinsic
+      
+          if time_value &lt; min_time_value:
+              return np.nan
+      
+          lo, hi = 1e-8, 5.0
+      
+          for _ in range(200):
+              mid = 0.5 * (lo + hi)
+              model_price = black76_price(F, K, T, r, mid, option_type)
+      
+              if abs(model_price - price) &lt; 1e-8:
+                  return mid
+      
+              if model_price &gt; price:
+                  hi = mid
+              else:
+                  lo = mid
+      
+          return 0.5 * (lo + hi)</code></pre>
+          </article>
+        </div>
+      
+        <div class="output-grid">
+          <figure class="output-card wide-output main-output">
+            <img src="heston_semiclosed_surface.png" alt="Heston semi-closed implied volatility surface." />
+            <figcaption>
+              Heston semi-closed implied-volatility surface generated from the characteristic-function pricing approach.
+            </figcaption>
+          </figure>
+      
+          <figure class="output-card wide-output">
+            <img src="heston_montecarlo_surface.png" alt="Heston Monte Carlo implied volatility surface." />
+            <figcaption>
+              Heston Monte Carlo implied-volatility surface generated with full truncation Euler simulation.
+            </figcaption>
+          </figure>
+      
+          <figure class="output-card">
+            <img src="smiles_comparison_1M.png" alt="One-month implied volatility smiles comparing Black-Scholes, Heston semi-closed and Heston Monte Carlo." />
+            <figcaption>
+              One-month smile comparison between Black-Scholes, Heston semi-closed pricing and Heston Monte Carlo.
+            </figcaption>
+          </figure>
+      
+          <figure class="output-card">
+            <img src="heston_semiclosed_vs_mc_iv_difference.png" alt="Absolute implied volatility difference between Heston semi-closed and Monte Carlo methods." />
+            <figcaption>
+              Absolute implied-volatility difference between Heston semi-closed and Monte Carlo estimates.
+            </figcaption>
+          </figure>
+      
+          <figure class="output-card">
+            <img src="heston_rho_sensitivity_1M.png" alt="Sensitivity of the Heston implied volatility smile to correlation rho." />
+            <figcaption>
+              Sensitivity of the Heston one-month smile to the correlation parameter rho.
+            </figcaption>
+          </figure>
+      
+          <figure class="output-card">
+            <img src="heston_xi_sensitivity_1M.png" alt="Sensitivity of the Heston implied volatility smile to vol-of-vol xi." />
+            <figcaption>
+              Sensitivity of the Heston one-month smile to the volatility-of-volatility parameter xi.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
       <section id="projects" class="section">
         <div class="section-heading">
           <p class="eyebrow">Projects roadmap</p>
