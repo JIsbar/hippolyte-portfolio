@@ -570,5 +570,24 @@ code {
   .button,
   .contact-links a {
     width: 100%;
+    .output-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.output-card.wide-output {
+  grid-column: 1 / -1;
+}
+
+.main-output img {
+  max-height: none;
+}
+
+@media (max-width: 900px) {
+  .output-card.wide-output {
+    grid-column: auto;
+  }
+}
   }
 }
