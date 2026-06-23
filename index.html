@@ -25,6 +25,7 @@
         <a href="#about">About</a>
         <a href="#first-project">Project I</a>
         <a href="#second-project">Project II</a>
+        <a href="#third-project">Project III</a>
         <a href="#projects">Projects</a>
         <a href="#code-lab">Code Lab</a>
         <a href="#motivation">Motivation</a>
@@ -46,7 +47,7 @@
 
           <div class="hero-actions">
             <a class="button button-primary" href="#first-project">View first project</a>
-            <a class="button button-secondary" href="#code-lab">Read Python prototypes</a>
+            <a class="button button-secondary" href="fx-pricer.html">Open interactive pricer</a>
           </div>
         </div>
 
@@ -311,6 +312,66 @@ otm["implied_vol"] = otm.apply(
           </figure>
         </div>
       </section>
+      <section id="third-project" class="section project-report interactive-project">
+        <div class="section-heading">
+          <p class="eyebrow">Third project · Interactive application</p>
+          <h2>G10 FX multi-leg option pricer</h2>
+          <p>
+            A browser-based educational application developed from an initial Python and ipywidgets
+            prototype. Users can construct vanilla FX option strategies and inspect indicative
+            premium, delta, vega and expiry P&amp;L directly on GitHub Pages.
+          </p>
+        </div>
+
+        <div class="interactive-project-layout">
+          <article class="report-card">
+            <div class="card-heading">
+              <h3>Project summary</h3>
+              <span class="status complete">interactive prototype</span>
+            </div>
+
+            <div class="project-notes">
+              <p><strong>Objective:</strong> translate a notebook pricing engine into a practical application that runs entirely in the browser.</p>
+              <p><strong>Mathematical framework:</strong> forward Black pricing, Gaussian distribution functions, vanilla payoff decomposition and first-order option sensitivities.</p>
+              <p><strong>Available structures:</strong> calls, puts, straddles and strangles, with up to five legs sharing one pair and maturity.</p>
+              <p><strong>Market snapshot:</strong> nine G10 pairs with spot prices, forward points, ATM volatility and FX conventions.</p>
+              <p><strong>Important limitation:</strong> the outputs are indicative and educational. The model excludes live data, discount factors, smile interpolation and full premium-adjusted delta conventions.</p>
+            </div>
+
+            <div class="metric-grid">
+              <div><span>G10 pairs</span><strong>9</strong></div>
+              <div><span>Products</span><strong>4</strong></div>
+              <div><span>Maximum legs</span><strong>5</strong></div>
+            </div>
+
+            <a class="button button-primary project-launch" href="fx-pricer.html">
+              Launch the interactive pricer
+            </a>
+          </article>
+
+          <div class="app-preview" aria-label="Preview of the interactive FX option pricer">
+            <div class="preview-toolbar">
+              <span>EURUSD</span>
+              <span>1M</span>
+              <span>ATM volatility 5.745%</span>
+            </div>
+            <div class="preview-body">
+              <div class="preview-leg">
+                <span>Leg 1</span>
+                <strong>Buy EUR call</strong>
+                <small>10m notional · ATMF strike</small>
+              </div>
+              <div class="preview-results">
+                <div><span>Premium</span><strong>Indicative</strong></div>
+                <div><span>Greeks</span><strong>Calculated</strong></div>
+                <div><span>Expiry P&amp;L</span><strong>Interactive</strong></div>
+              </div>
+              <div class="preview-chart" aria-hidden="true"><i></i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="projects" class="section">
         <div class="section-heading">
           <p class="eyebrow">Projects roadmap</p>

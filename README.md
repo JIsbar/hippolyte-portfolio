@@ -1,33 +1,95 @@
 # Hippolyte Broch Portfolio
 
-Static GitHub Pages portfolio for Hippolyte Broch, a student in market finance and applied mathematics.
+A static, research-oriented portfolio for Hippolyte Broch, a student in market finance and applied mathematics.
 
-The website presents a serious academic profile and a transparent roadmap of projects in progress. It is designed for applications to distance master's programs in mathematics and avoids claiming completed results.
+The website documents my academic profile, quantitative notebooks, interactive prototypes and future research roadmap. It is designed to support applications to distance master's programs in mathematics while remaining explicit about assumptions, limitations and project maturity.
 
-## Purpose
+## Academic and Technical Focus
 
-This portfolio documents technical progression in:
+The portfolio currently explores:
 
-- applied mathematics
-- Python programming
-- stochastic modeling
-- econometrics
-- statistical learning
-- quantitative finance
-- portfolio risk analysis
+- applied mathematics and numerical methods
+- probability and stochastic processes
+- Python programming and scientific computing
+- derivatives pricing and implied volatility
+- Monte Carlo simulation
+- econometrics and statistical learning
+- quantitative finance and portfolio risk
 
-## Files
+## Projects
 
-- `index.html` contains the full website content.
-- `style.css` contains the responsive visual design.
-- `script.js` handles the mobile menu and footer year.
-- `README.md` explains the project and deployment steps.
+### Project I: SPX Implied Volatility Surface Reconstruction
 
-## Local preview
+A Kaggle notebook that reconstructs an SPX implied-volatility surface from listed option quotes.
 
-Open `index.html` directly in a browser.
+The workflow includes:
 
-You can also run a simple local server:
+- cleaning and filtering option-chain data
+- matching calls and puts by strike and expiry
+- estimating forward prices through put-call parity
+- selecting out-of-the-money options
+- inverting Black-76 prices to obtain implied volatility
+- visualizing smiles and the three-dimensional volatility surface
+
+This is presented as a first notebook project rather than a production volatility model. The methodology uses mid prices, a flat interest-rate assumption and simplified liquidity filters.
+
+### Project II: Black-Scholes and Heston Volatility Surfaces
+
+A numerical comparison of constant-volatility Black-Scholes surfaces and stochastic-volatility Heston surfaces.
+
+The notebook implements:
+
+- Black-76 pricing and implied-volatility inversion
+- the Heston semi-closed characteristic-function approach
+- Heston Monte Carlo simulation with full truncation Euler discretization
+- implied-volatility smile comparisons across maturities
+- numerical comparison of semi-closed and Monte Carlo estimates
+- sensitivity analysis for correlation and volatility of volatility
+
+The parameters are synthetic and chosen for numerical exploration. The project does not claim calibration to live market prices or production-grade accuracy.
+
+### Project III: Interactive G10 FX Multi-Leg Option Pricer
+
+A browser-based educational pricer developed from an initial Python and ipywidgets prototype.
+
+The application allows users to:
+
+- select one of nine G10 currency pairs
+- choose a maturity from the available market snapshot
+- combine up to five option legs
+- construct calls, puts, straddles and strangles
+- inspect indicative premium, delta, delta notional and vega
+- visualize the structure's profit and loss at expiry
+
+All calculations run locally in the browser. The app uses a static data snapshot and ATM volatility for every strike. It excludes live pricing, discount-factor curves, volatility-smile interpolation and full premium-adjusted FX delta conventions.
+
+## Repository Structure
+
+```text
+.
+├── index.html
+├── style.css
+├── script.js
+├── fx-pricer.html
+├── fx-pricer.css
+├── fx-pricer.js
+├── fx-market-data.json
+├── README.md
+└── *.png
+```
+
+- `index.html` contains the academic portfolio and project presentations.
+- `style.css` contains the portfolio's responsive design.
+- `script.js` controls the mobile navigation and footer year.
+- `fx-pricer.html` contains the interactive pricing interface.
+- `fx-pricer.css` contains the application-specific responsive styling.
+- `fx-pricer.js` contains the client-side pricing and P&amp;L engine.
+- `fx-market-data.json` contains the static G10 market-data snapshot.
+- PNG files contain the notebook figures displayed by Projects I and II.
+
+## Local Preview
+
+Because the FX pricer loads a JSON file, preview the site through a local server rather than opening the HTML file directly:
 
 ```bash
 python3 -m http.server 8000
@@ -39,67 +101,38 @@ Then open:
 http://localhost:8000
 ```
 
+The interactive application is available at:
+
+```text
+http://localhost:8000/fx-pricer.html
+```
+
 ## Deploy with GitHub Pages
 
-1. Create a new repository on GitHub.
+1. Add all website files to the root of the GitHub repository.
+2. Commit and push the files to the `main` branch.
+3. Open the repository's `Settings` page.
+4. Select `Pages` under `Code and automation`.
+5. Under `Build and deployment`, select `Deploy from a branch`.
+6. Choose the `main` branch and the `/ (root)` folder.
+7. Save the configuration and wait for GitHub Pages to publish the site.
 
-   Suggested names:
-
-   - `portfolio`
-   - `hippolyte-broch.github.io`
-
-2. Add these files to the repository root:
-
-   - `index.html`
-   - `style.css`
-   - `script.js`
-   - `README.md`
-
-3. Commit and push the files to the `main` branch.
-
-4. Open the repository on GitHub.
-
-5. Go to:
-
-   ```text
-   Settings > Pages
-   ```
-
-6. Under `Build and deployment`, choose:
-
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-
-7. Click `Save`.
-
-8. Wait a few minutes. GitHub will publish the website.
-
-If the repository is named `portfolio`, the URL will look like:
+For this repository, the published URL should follow this format:
 
 ```text
-https://your-username.github.io/portfolio/
+https://jisbar.github.io/hippolyte-portfolio/
 ```
 
-If the repository is named `your-username.github.io`, the URL will look like:
-
-```text
-https://your-username.github.io/
-```
-
-## Current contact links
+## Contact
 
 - GitHub: <https://github.com/jisbar>
 - LinkedIn: <https://www.linkedin.com/in/hippolyte-broch>
 - Email: <hippolyte.broch@edu.escp.eu>
 
-## Future updates
+## Project Status and Integrity
 
-- Add GitHub repository links when projects become publishable.
-- Add notebooks and methodological notes for each project.
-- Add references for mathematical models and empirical methods.
-- Keep project status labels honest as work moves from prototype to completed.
+This portfolio distinguishes between completed notebooks, numerical prototypes and projects still in development. Results are not presented as professional research or production analytics. Each project states its assumptions and limitations so that the learning process remains transparent and technically credible.
 
-## No paid services
+## Technology and Hosting
 
-This website uses only HTML, CSS and JavaScript. It has no backend, no database, no paid deployment service and no build step. It is ready for GitHub Pages.
+The website uses only HTML, CSS and JavaScript. It has no backend, database, paid service or build step and is directly compatible with GitHub Pages.

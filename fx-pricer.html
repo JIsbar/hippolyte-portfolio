@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive educational G10 FX multi-leg option pricer by Hippolyte Broch."
+    />
+    <title>FX Multi-Leg Option Pricer | Hippolyte Broch</title>
+    <link rel="stylesheet" href="fx-pricer.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="back-link" href="index.html#fx-pricer-project" aria-label="Return to portfolio">
+        <span aria-hidden="true">&larr;</span>
+        Portfolio
+      </a>
+      <div class="app-identity">
+        <span class="app-mark">HB</span>
+        <div>
+          <strong>FX Multi-Leg Option Pricer</strong>
+          <span>Educational prototype</span>
+        </div>
+      </div>
+      <span class="data-date" id="data-date">Loading data...</span>
+    </header>
+
+    <main class="app-shell">
+      <section class="app-intro">
+        <div>
+          <p class="eyebrow">Interactive quantitative project</p>
+          <h1>Build and inspect an FX option structure</h1>
+          <p>
+            Select one G10 pair and maturity, combine up to five vanilla legs, and inspect indicative
+            premium, delta, vega and expiry P&amp;L using a simplified forward Black model.
+          </p>
+        </div>
+        <div class="model-scope" aria-label="Model scope">
+          <span>Single pair</span>
+          <span>Single maturity</span>
+          <span>ATM volatility</span>
+          <span>Static snapshot</span>
+        </div>
+      </section>
+
+      <div id="app-error" class="app-message error-message" role="alert" hidden></div>
+
+      <section class="workspace" aria-label="FX option pricer">
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Market inputs</p>
+              <h2>Structure setup</h2>
+            </div>
+            <button id="reset-button" class="text-button" type="button">Reset</button>
+          </div>
+
+          <div class="market-grid">
+            <label>
+              <span>Currency pair</span>
+              <select id="pair-select"></select>
+            </label>
+            <label>
+              <span>Tenor</span>
+              <select id="tenor-select"></select>
+            </label>
+            <label>
+              <span>Spot</span>
+              <input id="spot-input" type="number" step="any" inputmode="decimal" />
+            </label>
+            <label>
+              <span>Forward</span>
+              <input id="forward-input" type="number" step="any" inputmode="decimal" />
+            </label>
+            <label>
+              <span>ATM volatility (%)</span>
+              <input id="vol-input" type="number" min="0.01" step="0.001" inputmode="decimal" />
+            </label>
+            <div class="read-only-field">
+              <span>Premium currency</span>
+              <strong id="premium-currency">-</strong>
+            </div>
+          </div>
+
+          <div class="market-note" id="market-note"></div>
+
+          <div class="legs-heading">
+            <div>
+              <p class="panel-kicker">Option legs</p>
+              <h2>Trade composition</h2>
+            </div>
+            <div class="leg-actions">
+              <button id="remove-leg" class="icon-button" type="button" aria-label="Remove last leg" title="Remove last leg">&minus;</button>
+              <button id="add-leg" class="icon-button" type="button" aria-label="Add option leg" title="Add option leg">+</button>
+            </div>
+          </div>
+
+          <div id="legs-container" class="legs-container"></div>
+
+          <button id="price-button" class="primary-action" type="button">Price structure</button>
+        </aside>
+
+        <section class="results-panel" aria-live="polite">
+          <div class="results-heading">
+            <div>
+              <p class="panel-kicker">Model output</p>
+              <h2>Structure analytics</h2>
+            </div>
+            <span id="result-status" class="result-status">Ready</span>
+          </div>
+
+          <div class="metric-strip">
+            <div>
+              <span>Total premium</span>
+              <strong id="total-premium">-</strong>
+            </div>
+            <div>
+              <span>Total delta</span>
+              <strong id="total-delta">-</strong>
+            </div>
+            <div>
+              <span>Delta notional</span>
+              <strong id="total-delta-notional">-</strong>
+            </div>
+            <div>
+              <span>Vega / 1 vol pt</span>
+              <strong id="total-vega">-</strong>
+            </div>
+          </div>
+
+          <div class="chart-section">
+            <div class="chart-heading">
+              <div>
+                <h3>Expiry P&amp;L</h3>
+                <p id="chart-description">Price the structure to generate its payoff profile.</p>
+              </div>
+              <div class="chart-legend">
+                <span><i class="legend-line"></i>Structure P&amp;L</span>
+                <span><i class="legend-spot"></i>Current spot</span>
+              </div>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="pnl-chart" aria-label="Structure profit and loss at expiry"></canvas>
+              <div id="chart-empty" class="chart-empty">No priced structure</div>
+            </div>
+          </div>
+
+          <div class="breakdown-section">
+            <h3>Leg breakdown</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Leg</th>
+                    <th>Position</th>
+                    <th>Strike</th>
+                    <th>Premium</th>
+                    <th>Delta</th>
+                    <th>Vega</th>
+                  </tr>
+                </thead>
+                <tbody id="breakdown-body">
+                  <tr class="empty-row">
+                    <td colspan="6">Price the structure to see component analytics.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="assumption-note">
+            <strong>Model boundary.</strong>
+            Indicative educational output using a static market snapshot and ATM volatility for every
+            strike. Discount factors, smile interpolation, premium-adjusted delta conventions and live
+            market calibration are outside this prototype.
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <template id="leg-template">
+      <fieldset class="leg-panel">
+        <legend>Leg <span class="leg-number"></span></legend>
+        <div class="leg-grid">
+          <label>
+            <span>Side</span>
+            <select data-field="side">
+              <option value="BUY">Buy</option>
+              <option value="SELL">Sell</option>
+            </select>
+          </label>
+          <label>
+            <span>Product</span>
+            <select data-field="product">
+              <option value="CALL">Call</option>
+              <option value="PUT">Put</option>
+              <option value="STRADDLE">Straddle</option>
+              <option value="STRANGLE">Strangle</option>
+            </select>
+          </label>
+          <label class="notional-field">
+            <span>Notional</span>
+            <input data-field="notional" type="text" value="10m" inputmode="decimal" />
+          </label>
+          <label>
+            <span>Strike 1</span>
+            <input data-field="strike1" type="number" step="any" inputmode="decimal" />
+          </label>
+          <label data-strike-two>
+            <span>Strike 2</span>
+            <input data-field="strike2" type="number" step="any" inputmode="decimal" />
+          </label>
+          <label class="atmf-control">
+            <input data-field="atmf" type="checkbox" checked />
+            <span>Use ATMF strike</span>
+          </label>
+        </div>
+      </fieldset>
+    </template>
+
+    <script src="fx-pricer.js"></script>
+  </body>
+</html>
